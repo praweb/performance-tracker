@@ -12,28 +12,34 @@ module.exports = app => {
   // Your code here
   app.log('Yay, the app was loaded!')
 
-  app.on('issues.opened issues.commented', async context => {
-    const issueComment = context.issue({ body: 'Thanks for opening this issue!' })
-    return context.github.issues.createComment(issueComment)
-  })
-
   app.on(`*`, async context => {
-    webpagetest.run().then((testresults) => {
+    console.log(context.name)
+    if (context.name === 'deployment_status' && context.payload.deployment_status.state !== 'success'){
+      const issueComment = context.issue({ number: parseIssueId(test_url), body: 'Sorry deployment has been failed' })
+      return context.github.issues.createComment(issueComment)
+    }
+
+    // @TODO Communicate to customer about the test going on
+
+    const test_url = process.env.WEBPAGETEST_TEST_URL || `https://${context.payload.deployment_status.environment}.herokuapp.com`
+
+    // @TODO Ensure link is up and running before starting test
+
+    webpagetest.run(test_url).then((testresults) => {
       // @TODO: Have to parse the data to print in required format
       // @TODO: Handle error rejections too
 
       if (testresults) {
         const message = dataParser.parse(testresults)
-        const issueComment = context.issue({ body: message })
+
+        const issueComment = context.issue({ number: parseIssueId(test_url), body: message })
         slackClient.postMessage(message)
         return context.github.issues.createComment(issueComment)
       }
     })
   })
 
-  // For more information on building apps:
-  // https://probot.github.io/docs/
-
-  // To get your app running against GitHub, see:
-  // https://probot.github.io/docs/development/
+  const parseIssueId = (url) => {
+    return url.match(/pr-([\d]+)/)[1]
+  }
 }
