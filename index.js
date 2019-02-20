@@ -13,33 +13,34 @@ module.exports = app => {
   app.log('Yay, the app was loaded!')
 
   app.on(`*`, async context => {
-    console.log(context.name)
     if (context.name === 'deployment_status' && context.payload.deployment_status.state !== 'success'){
       const issueComment = context.issue({ number: parseIssueId(test_url), body: 'Sorry deployment has been failed' })
       return context.github.issues.createComment(issueComment)
     }
 
-    // @TODO Communicate to customer about the test going on
-
     const test_url = process.env.WEBPAGETEST_TEST_URL || `https://${context.payload.deployment_status.environment}.herokuapp.com`
 
     // @TODO Ensure link is up and running before starting test
 
-    webpagetest.run(test_url).then((testresults) => {
+    webpagetest.run(test_url, function (message) {
+      acknowledge(context, parseIssueId(test_url), message)
+    }).then((testresults) => {
       // @TODO: Have to parse the data to print in required format
       // @TODO: Handle error rejections too
-
       if (testresults) {
         const message = dataParser.parse(testresults)
-
-        const issueComment = context.issue({ number: parseIssueId(test_url), body: message })
-        slackClient.postMessage(message)
-        return context.github.issues.createComment(issueComment)
+        acknowledge(context, parseIssueId(test_url), message)
       }
     })
   })
 
   const parseIssueId = (url) => {
     return url.match(/pr-([\d]+)/)[1]
+  }
+
+  const acknowledge = (context, issueId, body) => {
+    const issueComment = context.issue({ number: issueId, body: body })
+    slackClient.postMessage(body)
+    return context.github.issues.createComment(issueComment)
   }
 }
