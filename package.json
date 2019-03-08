@@ -21,11 +21,12 @@
   },
   "dependencies": {
     "probot": "^7.2.0",
-    "webpagetest": "github:eduardoboucas/webpagetest-api",
-    "slack": "^11.0.2"
+    "request": "^2.88.0",
+    "slack": "^11.0.2",
+    "webpagetest": "github:eduardoboucas/webpagetest-api"
   },
   "devDependencies": {
-    "jest": "^22.4.3",
+    "jest": "^24.1.0",
     "nock": "^10.0.0",
     "nodemon": "^1.17.2",
     "smee-client": "^1.0.2",
