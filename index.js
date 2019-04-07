@@ -16,8 +16,13 @@ module.exports = app => {
   app.log('Yay, the app was loaded!')
 
   app.on(`*`, async context => {
+    const config = await context.config('webpack_config.yml')
     //@TODO This command should be changed in case of pull request
-    const testUrl = process.env.WEBPAGETEST_TEST_URL || `https://${context.payload.deployment_status.environment}.herokuapp.com`
+    let testUrl = ''
+
+    if (context.name === 'deployment_status') {
+      testUrl = process.env.WEBPAGETEST_TEST_URL || `https://${context.payload.deployment_status.environment}.herokuapp.com`
+    }
 
     if (context.name === 'deployment_status' && context.payload.deployment_status.state !== 'success') {
       const issueComment = context.issue({ number: parseIssueId(testUrl), body: 'Sorry deployment has been failed' })
@@ -31,7 +36,7 @@ module.exports = app => {
       }).then((testresults) => {
         if (testresults) {
           pageSpeedScore.getScore(testUrl).then(function (data) {
-            acknowledge(context, parseIssueId(testUrl), dataParser.parse(testresults.data, data))
+            acknowledge(context, parseIssueId(testUrl), dataParser.parse(testresults.data, data, config))
           })
         }
       }, (error) => {
