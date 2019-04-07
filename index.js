@@ -4,10 +4,12 @@ const request = require("request")
 const WebpageTest = require('./lib/webpage/index')
 const Slack = require('./lib/slack/index')
 const DataParser = require('./lib/parse_data')
+const PageSpeed = require('./lib/webpage/page_speed')
 
 const webpagetest = new WebpageTest()
 const slackClient = new Slack()
 const dataParser = new DataParser()
+const pageSpeedScore = new PageSpeed()
 
 module.exports = app => {
   // Your code here
@@ -21,25 +23,27 @@ module.exports = app => {
       const issueComment = context.issue({ number: parseIssueId(testUrl), body: 'Sorry deployment has been failed' })
       return context.github.issues.createComment(issueComment)
     }
-    checkUrlStatus(testUrl).then(function () {
-      webpagetest.run(testUrl, function (message) {
+
+    checkUrlStatus(testUrl)
+    .then(() => {
+      webpagetest.run(testUrl, (message) => {
         acknowledge(context, parseIssueId(testUrl), message)
       }).then((testresults) => {
         if (testresults) {
-          const message = dataParser.parse(testresults)
-          acknowledge(context, parseIssueId(testUrl), message)
+          pageSpeedScore.getScore(testUrl).then(function (data) {
+            acknowledge(context, parseIssueId(testUrl), dataParser.parse(testresults.data, data))
+          })
         }
-      }).error((error) => {
+      }, (error) => {
         // Not sure if this works
         acknowledge(context, parseIssueId(testUrl), error)
       })
-    },function (error) {
+    }, (error) => {
       return acknowledge(context, parseIssueId(testUrl), `Test URL ${testUrl} is not working.`)
     })
   })
 
   const parseIssueId = (url) => {
-    console.log(url)
     return url.match(/pr-([\d]+)/)[1]
   }
 
