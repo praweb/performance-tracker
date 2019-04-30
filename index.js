@@ -12,16 +12,22 @@ const dataParser = new DataParser()
 const pageSpeedScore = new PageSpeed()
 
 module.exports = app => {
-  // Your code here
-  app.log('Yay, the app was loaded!')
+  // Just for monitor purpose
+  app.log('Performance Track app loaded.')
 
+  // Start receiving events
   app.on(`*`, async context => {
+    // Read app configuration
     const config = await context.config('webpack_config.yml')
+
     //@TODO This command should be changed in case of pull request
     let testUrl = ''
 
     if (context.name === 'deployment_status') {
       testUrl = process.env.WEBPAGETEST_TEST_URL || `https://${context.payload.deployment_status.environment}.herokuapp.com`
+    } else {
+      // We handle only the scenario of deployments
+      return ''
     }
 
     if (context.name === 'deployment_status' && context.payload.deployment_status.state !== 'success') {
@@ -34,8 +40,11 @@ module.exports = app => {
       webpagetest.run(testUrl, (message) => {
         acknowledge(context, parseIssueId(testUrl), message)
       }).then((testresults) => {
+        console.log(testresults.data.average)
         if (testresults) {
           pageSpeedScore.getScore(testUrl).then(function (data) {
+            console.log(data.ruleGroups)
+            console.log(data.formattedResults.ruleResults)
             acknowledge(context, parseIssueId(testUrl), dataParser.parse(testresults.data, data, config))
           })
         }
