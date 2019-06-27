@@ -2,15 +2,32 @@
 
 > A GitHub App built with [Probot](https://github.com/probot/probot) that A Probot app
 
+This performance tracker app runs a speed test on opening a PR on **GITHUB**, and for ever commit after opening a PR. Once the test is done, it will post the report as a comment to PR. You can also set budgets for each metric via **webpack_config.yml** in your code.
+
+More about possible metrics [here](/)
+
+Features:
+
+1. Webpage Test
+
+2. Light house speed test
+
+3. Report to Sentry
+
+
 ## Setup
 
 ```sh
 # Install dependencies
-npm install
+yarn install
 
-# Run the bot
-npm start
+# Run the bot 
+
+_Developemnt_
+yarn run dev 
 ```
+
+
 
 ## Contributing
 

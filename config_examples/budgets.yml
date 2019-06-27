@@ -1,0 +1,20 @@
+** Budget Metrics Keys **
+
+latency
+ttfb
+domElements
+firstPaint
+domInteractive
+fullyLoaded
+loadTime
+renderTime
+visualComplete
+speedIndex
+speedScore
+
+
+** Type of Running **
+
+RUN_PERIODICALLY = [true,false]
+RUN_PER_COMMIT = [true,false]
+TEST_URL = [URL to test periodically]
