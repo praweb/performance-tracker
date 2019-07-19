@@ -17,9 +17,9 @@ module.exports = app => {
       repo: context.payload.repository,
       commit_sha: context.payload.deployment.sha
     }
-    console.log(auth)
+    // console.log(auth)
     let res = context.github.repos.getCommit(auth)
-    console.log(res)
+    // console.log(res)
     console.log("************************")
     initTest.trigger(context)
   })
