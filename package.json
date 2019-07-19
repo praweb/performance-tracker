@@ -25,7 +25,7 @@
     "express-graphql": "^0.8.0",
     "graphql": "^14.4.0",
     "pg-promise": "^8.7.2",
-    "probot": "^9.2.12",
+    "probot": "^9.2.19",
     "request": "^2.88.0",
     "slack": "^11.0.2",
     "webpagetest": "github:eduardoboucas/webpagetest-api"
