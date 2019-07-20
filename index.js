@@ -9,13 +9,11 @@ module.exports = app => {
   // Start receiving events
   app.on(`*`, async context => {
     console.log("************************")
-    console.log("received an event")
-    console.log(context)
 
     const patchAcceptHeader = { accept: "application/vnd.github.v3.patch"}
     const auth = {
       header: patchAcceptHeader,
-      owner: context.payload.deployment_status.creator,
+      owner: context.payload.respository.creator,
       repo: context.payload.repository,
       commit_sha: context.payload.deployment.sha
     }
