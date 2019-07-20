@@ -5,7 +5,7 @@ const initTest = require('./lib/init_test')
 module.exports = app => {
   console.log(process.env.PORT)
   // Just for monitor purpose
-  app.log('Performance Track app loaded.')
+  app.log('Performance Track app loaded.....')
 
   // Start receiving events
   app.on(`*`, async context => {
