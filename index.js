@@ -7,18 +7,16 @@ module.exports = app => {
   // Just for monitor purpose
   app.log('Performance Track app loaded.')
   
- request("https://api.github.com/rate_limit", (error, response, body) => {
-    if (error) {
-      console.log(error)
-    } else {
-      return resolve(JSON.parse(body))
-    }
-  })
+ 
   
   // Start receiving events
   app.on(`*`, async context => {
     console.log("************************")
+    
     if(context.name == 'deployment_status') {
+      // For now we are just fetching the rate limit,
+      // but not handling any thing
+      fetchRateLimit(context)
       processRequest(context)
     }
     
@@ -36,4 +34,19 @@ const processRequest = function(context) {
   let res = context.github.repos.getCommit(auth)
   console.log("************************")
   initTest.trigger(context)
+}
+
+const fetchRateLimit = (context) => {
+  request({
+    url: "https://api.github.com/rate_limit",
+    headers: {
+      'User-Agent': context.payload.repository.name
+    }
+  }, (error, response, body) => {
+    if (error) {
+      console.error("Error in fetching rate limit #{error}")
+    } else {
+      console.log(`Rate limit data: #{JSON.parse(body)}``)
+    }
+  })
 }
