@@ -7,8 +7,6 @@ module.exports = app => {
   // Just for monitor purpose
   app.log('Performance Track app loaded.')
   
- 
-  
   // Start receiving events
   app.on(`*`, async context => {
     console.log("************************")
