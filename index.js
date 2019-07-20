@@ -8,19 +8,22 @@ module.exports = app => {
 
   // Start receiving events
   app.on(`*`, async context => {
-    console.log("************************")
-
-    const patchAcceptHeader = { accept: "application/vnd.github.v3.patch"}
-    const auth = {
-      header: patchAcceptHeader,
-      owner: context.payload.repository.owner.login,
-      repo: context.payload.repository,
-      commit_sha: context.payload.deployment.sha
+    console.log('************************')
+    if (context.name === 'deployment_status') {
+      processRequest(context)
     }
-    // console.log(auth)
-    let res = context.github.repos.getCommit(auth)
-    // console.log(res)
-    console.log("************************")
-    initTest.trigger(context)
   })
+}
+
+const processRequest = (context) => {
+  const patchAcceptHeader = { accept: 'application/vnd.github.v3.patch' }
+  const auth = {
+    header: patchAcceptHeader,
+    owner: context.payload.repository.owner.login,
+    repo: context.payload.repository,
+    commit_sha: context.payload.deployment.sha
+  }
+  context.github.repos.getCommit(auth)
+  console.log('************************')
+  initTest.trigger(context)
 }
