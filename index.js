@@ -1,11 +1,20 @@
 'use strict'
 
 const initTest = require('./lib/init_test')
+const request = require('request')
 
 module.exports = app => {
   // Just for monitor purpose
   app.log('Performance Track app loaded.')
-
+  
+ request("https://api.github.com/rate_limit", (error, response, body) => {
+    if (error) {
+      console.log(error)
+    } else {
+      return resolve(JSON.parse(body))
+    }
+  })
+  
   // Start receiving events
   app.on(`*`, async context => {
     console.log("************************")
