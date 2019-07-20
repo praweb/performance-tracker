@@ -46,7 +46,8 @@ const fetchRateLimit = (context) => {
     if (error) {
       console.error("Error in fetching rate limit #{error}")
     } else {
-      console.log(`Rate limit data: #{JSON.parse(body)}``)
+      console.log('Rate limit data .................... ')
+      console.log(JSON.parse(body))
     }
   })
 }
