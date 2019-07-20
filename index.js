@@ -13,7 +13,7 @@ module.exports = app => {
     const patchAcceptHeader = { accept: "application/vnd.github.v3.patch"}
     const auth = {
       header: patchAcceptHeader,
-      owner: context.payload.respository.creator,
+      owner: context.payload.repository.owner.login,
       repo: context.payload.repository,
       commit_sha: context.payload.deployment.sha
     }
