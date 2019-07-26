@@ -1,6 +1,18 @@
 # performance-tracker
 
-> A GitHub App built with [Probot](https://github.com/probot/probot) that A Probot app
+> A GitHub App built with [Probot](https://github.com/probot/probot). This is to track performance of your website while you are still developing it. Install this app and get a webpage test key, you should all be set.
+
+### Pre-requisites
+1. Code is committed to Github.
+2. Deploying the code on to any environment, once the PR is opened.
+3. Require a webpage-test key api key.(This will be encoded)
+
+### How this works
+1. Once a PR is opened, it is supposed to be deployed to any enviornment. 
+2. Deployed url will be read by the tracker and test will be made against it.
+3. Once the test is triggered, a comment will be made on the PR with the test url. So you can always go directly to that url.
+4. After the test is done, 
+
 
 This performance tracker app runs a speed test on opening a PR on **GITHUB**, and for ever commit after opening a PR. Once the test is done, it will post the report as a comment to PR. You can also set budgets for each metric via **webpack_config.yml** in your code.
 
