@@ -3,28 +3,33 @@
 > A GitHub App built with [Probot](https://github.com/probot/probot). This is to track performance of your website while you are still developing it. Install this app and get a webpage test key, you should all be set.
 
 ### Pre-requisites
-1. Code is committed to Github.
+1. Code is committed to **Github**.
 2. Deploying the code on to any environment, once the PR is opened.
-3. Require a webpage-test key api key.(This will be encoded)
+3. Require a **webpage-test** api key.(This will be encoded)
 
 ### How this works
 1. Once a PR is opened, it is supposed to be deployed to any enviornment. 
 2. Deployed url will be read by the tracker and test will be made against it.
 3. Once the test is triggered, a comment will be made on the PR with the test url. So you can always go directly to that url.
-4. After the test is done, 
+4. After the test is done, specific metrics will be posted on to the PR. 
+5. You can also set budgets for those metrics. For the metrics that have budgets available a comparison will be made.
+6. Report will also be posted to Sentry if configured.
+
+### Sample images
+
+_Post about starting the test_
 
 
-This performance tracker app runs a speed test on opening a PR on **GITHUB**, and for ever commit after opening a PR. Once the test is done, it will post the report as a comment to PR. You can also set budgets for each metric via **webpack_config.yml** in your code.
+_Report posted after the test_
+
+
+### Setting up
+1. Create ***performance_tracker_config.yml*** in your ./github folder.
+2. Configure it as explained here. 
+3. Get a webpage api key from here.
+4. Encode it here and add it to the config yml file.
 
 More about possible metrics [here](/)
-
-Features:
-
-1. Webpage Test
-
-2. Light house speed test
-
-3. Report to Sentry
 
 
 ## Setup
@@ -39,6 +44,12 @@ _Developemnt_
 yarn run dev 
 ```
 
+### Future plans
+1. Adding PWA metrics to the report.
+2. Making this to be available as a npm module.
+3. Running scheduled tests. Schedule can be set via config file
+4. Running tests against a standard url.
+5. Sending reports to email.
 
 
 ## Contributing
