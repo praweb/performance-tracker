@@ -19,8 +19,11 @@
 
 _Post about starting the test_
 
+![Report about start of test](https://github.com/praWeb/performance-tracker/blob/doc/readme/images/report_test_started.png)
 
 _Report posted after the test_
+
+![Report metrics once test is completed](https://github.com/praWeb/performance-tracker/blob/doc/readme/images/report_test_status.png)
 
 
 ### Setting up
