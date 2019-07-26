@@ -2,6 +2,8 @@
 
 > A GitHub App built with [Probot](https://github.com/probot/probot). This is to track performance of your website while you are still developing it. Install this app and get a webpage test key, you should be all set.
 
+_Note_: For now, we are using the api key from the app. But each api key allows only 200 tests per day. So a plan is made to get the key from the user config file.
+
 ### Pre-requisites
 1. Code is committed to **Github**.
 2. Deploying the code on to any environment, once the PR is opened.
@@ -51,11 +53,12 @@ yarn run dev
 
 *For a consumer of this app:*
 
-1. Adding PWA metrics to the report.
-2. Making this to be available as a npm module.
-3. Running scheduled tests. Schedule can be set via config file
-4. Running tests against a standard url.
-5. Sending reports to email.
+1. Get a page where we can encode the api key and use it in the config file.
+2. Adding PWA metrics to the report.
+3. Making this to be available as a npm module.
+4. Running scheduled tests. Schedule can be set via config file
+5. Running tests against a standard url.
+6. Sending reports to email.
 
 *For a developer:*
 
