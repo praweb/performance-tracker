@@ -1,6 +1,6 @@
 # performance-tracker
 
-> A GitHub App built with [Probot](https://github.com/probot/probot). This is to track performance of your website while you are still developing it. Install this app and get a webpage test key, you should all be set.
+> A GitHub App built with [Probot](https://github.com/probot/probot). This is to track performance of your website while you are still developing it. Install this app and get a webpage test key, you should be all set.
 
 ### Pre-requisites
 1. Code is committed to **Github**.
@@ -48,11 +48,21 @@ yarn run dev
 ```
 
 ### Future plans
+
+*For a consumer of this app:*
+
 1. Adding PWA metrics to the report.
 2. Making this to be available as a npm module.
 3. Running scheduled tests. Schedule can be set via config file
 4. Running tests against a standard url.
 5. Sending reports to email.
+
+*For a developer:*
+
+1. Improve on error logging
+2. Introduce background workers to ensure every event is handled
+3. Track rate limiting on the events and report to user if they are reaching the limit.
+
 
 
 ## Contributing
