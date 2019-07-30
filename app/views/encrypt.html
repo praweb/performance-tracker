@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title> Encrypt Keys</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+  </head>
+  <body class="container">
+    <section class="card">
+      <div class="card-header">
+        <h5> Configure your api keys here </h5>
+      </div>
+      <form action="/v1/store" method="post">
+        <div class="card-body">
+          <div class="form-group">
+            <label for="org">Github organisation Name</label>
+            <input id="org" type="text" name="user[org]" class="form-control" placeholder="Type in your key here"/>
+          </div>
+          <div class="form-group">
+            <label for="repo">Github repository Name</label>
+            <input id="repo" type="text" name="user[repo]" class="form-control" placeholder="Type in your key here"/>
+          </div>
+          <div class="form-group">
+            <label for="key">Webpage Api Key</label>
+            <input id="key" type="text" name="user[key]" class="form-control" placeholder="Type in your key here"/>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </section>
+  </body>
+</html>

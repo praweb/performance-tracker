@@ -2,10 +2,49 @@
 
 const initTest = require('./lib/init_test')
 const request = require('request')
+const path = require('path')
+const express = require('express')
 
 module.exports = app => {
   // Just for monitor purpose
   app.log('Performance Track app loaded.')
+
+  const server = app.route()
+
+  server.use(express.json())
+  server.use(express.static(path.join(__dirname, '/node_modules/bootstrap/dist')))
+  server.use('/html', express.static(path.join(__dirname, '/app/views')))
+  server.use(express.static(path.join(__dirname, '/app/assets')))
+
+  server.get('/encrypt', (_, res) => res.format(
+    {
+      'text/html': function () {
+        res.sendFile(path.join(__dirname, '/app/views/encrypt.html'))
+      }
+    }
+  ))
+
+  server.post('/v1/store', (req, res) => {
+    const body = {
+      'org': req.body['user[org]'],
+      'repo': req.body['user[repo]'],
+      'key': req.body['user[key]']
+    }
+    request.post({
+      url: `${process.env.API_URL}/api/v1/encrypt`,
+      body: body,
+      json: true
+    }, (error, res, body) => {
+      if (error) {
+        console.error('Error in posting body')
+        console.error(error)
+      } else {
+        console.log('posted data')
+        // console.log(res)
+        console.log(body)
+      }
+    })
+  })
 
   // Start receiving events
   app.on(`*`, async context => {
